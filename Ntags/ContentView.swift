@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Ntags
+//  Ntags - from github
 //
 //  Created by Lasse Durucz on 09/02/2025.
 //
