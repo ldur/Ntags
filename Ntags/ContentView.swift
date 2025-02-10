@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var nfcReader = NFCReaderViewModel()
     @State private var inputMessage: String = ""
+    @State private var showPopup = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -22,15 +23,15 @@ struct ContentView: View {
                 .padding()
                 .multilineTextAlignment(.center)
 
-            if !nfcReader.detectedMessage.isEmpty {
-                ScrollView {
-                    Text(nfcReader.detectedMessage)
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
-                        .multilineTextAlignment(.leading)
+            // Show detected messages in a pop-up
+            if !nfcReader.detectedMessages.isEmpty {
+                Button("Show Tags") {
+                    showPopup = true
                 }
-                .frame(maxHeight: 200)
+                .padding()
+                .background(Color.orange)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
 
             // TextField to enter message for writing to NFC tag
@@ -41,6 +42,7 @@ struct ContentView: View {
             // Button to write message to NFC tag
             Button(action: {
                 nfcReader.startWriting(to: inputMessage)
+                inputMessage = ""  // Clear input field after writing
             }) {
                 Text("Write to NFC Tag")
                     .padding()
@@ -61,5 +63,8 @@ struct ContentView: View {
             }
         }
         .padding()
+        .alert(isPresented: $showPopup) {
+            Alert(title: Text("Tags"), message: Text(nfcReader.detectedMessages.joined(separator: "\n")), dismissButton: .default(Text("OK")))
+        }
     }
 }
