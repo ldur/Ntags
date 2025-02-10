@@ -16,7 +16,7 @@ struct ContentView: View {
         VStack(spacing: 20) {
             Image(systemName: "dot.radiowaves.left.and.right")
                 .resizable()
-                .frame(width: 100, height: 100)
+                .frame(width: 50, height: 40)
                 .foregroundColor(.blue)
 
             Text(nfcReader.tagMessage)
@@ -66,5 +66,12 @@ struct ContentView: View {
         .alert(isPresented: $showPopup) {
             Alert(title: Text("Tags"), message: Text(nfcReader.detectedMessages.joined(separator: "\n")), dismissButton: .default(Text("OK")))
         }
+    }
+}
+// Preview for ContentView
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
